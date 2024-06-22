@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { submit } from "@/lib/actions";
 import { BookText, Rss } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -33,14 +34,14 @@ export default function Home() {
       </form>
 
       <div className="flex items-center justify-center gap-x-8 w-full max-w-xl mt-3">
-        <p className="text-xs md:text-sm font-medium text-muted-foreground flex items-center gap-x-2">
+        <Link href={"https://github.com/msafdev/zap"} target="_blank" className="text-xs md:text-sm font-medium hover:text-foreground text-muted-foreground flex items-center gap-x-2">
           <Rss size={14} className="text-foreground" />
           What's new
-        </p>
-        <p className="text-xs md:text-sm font-medium text-muted-foreground flex items-center gap-x-2">
+        </Link>
+        <Link href={"https://developers.google.com/speed/docs/insights/v5/get-started"} target="_blank" className="text-xs md:text-sm font-medium hover:text-foreground text-muted-foreground flex items-center gap-x-2">
           <BookText size={14} className="text-foreground" />
           Pagespeed API
-        </p>
+        </Link>
       </div>
     </main>
   );

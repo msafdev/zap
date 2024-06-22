@@ -14,7 +14,7 @@ export default async function Analyze({
           Report for <code className="">{searchParams.url}</code>
         </h3>
 
-        <div className="w-full flex flex-col border rounded-xl overflow-hidden">
+        <div className="w-full flex flex-col border rounded-xl overflow-hidden bg-background">
           <Tabs
             defaultValue="desktop"
             className="w-full pt-4 flex flex-col gap-y-5 items-center"

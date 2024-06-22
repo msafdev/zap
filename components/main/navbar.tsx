@@ -20,7 +20,7 @@ const Navbar = () => {
         <ul className="flex items-center justify-center w-full gap-x-3 font-medium">
           <ModeToggle />
           <Button asChild size={"sm"} className="w-9 h-9 md:w-fit p-0 md:px-3">
-            <Link href="/about" className="gap-x-2">
+            <Link href="https://github.com/msafdev/zap" className="gap-x-2">
               <Star size={16} />
               <span className="hidden md:inline-block">Star on GitHub</span>
             </Link>
