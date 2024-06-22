@@ -5,6 +5,7 @@ import { Categories, ApiResponse, Audits } from "./types";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
 const pickAudits = (audits: Audits): Audits => ({
   "first-contentful-paint": audits["first-contentful-paint"],
   "first-meaningful-paint": audits["first-meaningful-paint"],
@@ -34,11 +35,25 @@ const fetchData = async (
   fetchTime: string;
   audits: Audits;
 }> => {
-  const res = await fetch(
-    `${process.env.GOOGLE_PAGESPEED_URL}?strategy=${strategy}&category=performance&category=best-practices&category=seo&category=accessibility&url=${url}&key=${process.env.GOOGLE_PAGESPEED_API_KEY}`
-  );
+  try {
+    const response = await fetch(
+      `${process.env.GOOGLE_PAGESPEED_URL}?strategy=${strategy}&category=performance&category=best-practices&category=seo&category=accessibility&url=${url}`
+    );
 
-  if (!res.ok) {
+    if (!response.ok) {
+      throw new Error("Network response is not ok.");
+    }
+
+    const data: ApiResponse = await response.json();
+
+    return {
+      categories: data.lighthouseResult.categories,
+      fetchTime: formatDateTime(data.lighthouseResult.fetchTime),
+      audits: pickAudits(data.lighthouseResult.audits),
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
     return {
       categories: {
         performance: { score: 0, title: "N/A" },
@@ -46,53 +61,46 @@ const fetchData = async (
         seo: { score: 0, title: "N/A" },
         "best-practices": { score: 0, title: "N/A" },
       },
-      fetchTime: "",
+      fetchTime: "N/A",
       audits: {
         "first-contentful-paint": {
-          id: "",
-          title: "",
-          description: "",
+          id: "N/A",
+          title: "N/A",
+          description: "N/A",
           score: 0,
-          displayValue: "",
+          displayValue: "N/A",
         },
         "first-meaningful-paint": {
-          id: "",
-          title: "",
-          description: "",
+          id: "N/A",
+          title: "N/A",
+          description: "N/A",
           score: 0,
-          displayValue: "",
+          displayValue: "N/A",
         },
         "speed-index": {
-          id: "",
-          title: "",
-          description: "",
+          id: "N/A",
+          title: "N/A",
+          description: "N/A",
           score: 0,
-          displayValue: "",
+          displayValue: "N/A",
         },
         "largest-contentful-paint": {
-          id: "",
-          title: "",
-          description: "",
+          id: "N/A",
+          title: "N/A",
+          description: "N/A",
           score: 0,
-          displayValue: "",
+          displayValue: "N/A",
         },
         "cumulative-layout-shift": {
-          id: "",
-          title: "",
-          description: "",
+          id: "N/A",
+          title: "N/A",
+          description: "N/A",
           score: 0,
-          displayValue: "",
+          displayValue: "N/A",
         },
       },
     };
   }
-
-  const data: ApiResponse = await res.json();
-  const categories: Categories = data.lighthouseResult.categories;
-  const fetchTime: string = formatDateTime(data.lighthouseResult.fetchTime);
-  const audits: Audits = pickAudits(data.lighthouseResult.audits);
-
-  return { categories, fetchTime, audits };
 };
 
 export const fetchDesktop = async (
@@ -102,12 +110,18 @@ export const fetchDesktop = async (
   desktopFetchTime: string;
   desktopAudits: Audits;
 }> => {
-  const { categories, fetchTime, audits } = await fetchData(url, "desktop");
-  return {
-    desktopCategories: categories,
-    desktopFetchTime: fetchTime,
-    desktopAudits: audits,
-  };
+  try {
+    const { categories, fetchTime, audits } = await fetchData(url, "desktop");
+
+    return {
+      desktopCategories: categories,
+      desktopFetchTime: fetchTime,
+      desktopAudits: audits,
+    };
+  } catch (error) {
+    console.error("Error fetching desktop data:", error);
+    throw error;
+  }
 };
 
 export const fetchMobile = async (
@@ -117,10 +131,16 @@ export const fetchMobile = async (
   mobileFetchTime: string;
   mobileAudits: Audits;
 }> => {
-  const { categories, fetchTime, audits } = await fetchData(url, "mobile");
-  return {
-    mobileCategories: categories,
-    mobileFetchTime: fetchTime,
-    mobileAudits: audits,
-  };
+  try {
+    const { categories, fetchTime, audits } = await fetchData(url, "mobile");
+
+    return {
+      mobileCategories: categories,
+      mobileFetchTime: fetchTime,
+      mobileAudits: audits,
+    };
+  } catch (error) {
+    console.error("Error fetching mobile data:", error);
+    throw error;
+  }
 };
