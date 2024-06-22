@@ -7,6 +7,5 @@ export async function submit(formData: FormData) {
     url: formData.get("url"),
   };
 
-  console.log(rawFormData);
   redirect(`/analyze?url=${rawFormData.url}`);
 }
