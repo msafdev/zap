@@ -9,6 +9,9 @@ export default async function Analyze({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  const tweet = 
+  `🚀 Check out my website's performance here: https://zap.msaf.tech/analyze?url=${searchParams.url}`;
+
   return (
     <main className="flex flex-col items-center justify-center h-auto grow w-full py-8 pad-x">
       <div className="flex flex-col w-full max-w-2xl gap-y-3">
@@ -24,7 +27,7 @@ export default async function Analyze({
           </Button>
           <Button size={"icon"} variant={"outline"} asChild>
             <Link
-              href={`https://twitter.com/intent/tweet?text=${searchParams.url}`}
+              href={`https://twitter.com/intent/tweet?text=${tweet}`}
               target="_blank"
             >
               <Share size={16} />
