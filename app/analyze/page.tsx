@@ -9,7 +9,6 @@ export default async function Analyze({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const url = searchParams.url as string;
   return (
     <main className="flex flex-col items-center justify-center h-auto grow w-full py-8 pad-x">
       <div className="flex flex-col w-full max-w-2xl gap-y-3">
@@ -24,13 +23,16 @@ export default async function Analyze({
             </Link>
           </Button>
           <Button size={"icon"} variant={"outline"} asChild>
-            <Link href={`https://twitter.com/intent/tweet?text=${url}`} target="_blank">
+            <Link
+              href={`https://twitter.com/intent/tweet?text=${searchParams.url}`}
+              target="_blank"
+            >
               <Share size={16} />
             </Link>
           </Button>
         </div>
 
-        <div className="w-full flex flex-col border rounded-xl overflow-hidden bg-background">
+        <div className="w-full flex flex-col border rounded-md overflow-hidden bg-background">
           <Tabs
             defaultValue="desktop"
             className="w-full pt-4 flex flex-col gap-y-5 items-center"
@@ -40,10 +42,10 @@ export default async function Analyze({
               <TabsTrigger value="mobile">Mobile</TabsTrigger>
             </TabsList>
             <TabsContent className="w-full" value="desktop">
-              <Pagespeed url={url} strategy="desktop" />
+              <Pagespeed url={searchParams.url as string} strategy="desktop" />
             </TabsContent>
             <TabsContent className="w-full" value="mobile">
-              <Pagespeed url={url} strategy="mobile" />
+              <Pagespeed url={searchParams.url as string} strategy="mobile" />
             </TabsContent>
           </Tabs>
         </div>
