@@ -36,7 +36,7 @@ export default function Home() {
       <div className="flex items-center justify-center gap-x-8 w-full max-w-xl mt-3">
         <Link href={"https://github.com/msafdev/zap"} target="_blank" className="text-xs md:text-sm font-medium hover:text-foreground text-muted-foreground flex items-center gap-x-2">
           <Rss size={14} className="text-foreground" />
-          What's new
+          Contribute
         </Link>
         <Link href={"https://developers.google.com/speed/docs/insights/v5/get-started"} target="_blank" className="text-xs md:text-sm font-medium hover:text-foreground text-muted-foreground flex items-center gap-x-2">
           <BookText size={14} className="text-foreground" />
