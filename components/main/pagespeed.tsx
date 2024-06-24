@@ -6,13 +6,7 @@ import GaugeCircle from "../ui/gauge-circle";
 import { Clock } from "lucide-react";
 import Loading from "@/app/analyze/loading";
 
-const Pagespeed = ({
-  url,
-  strategy,
-}: {
-  url: string;
-  strategy: string;
-}) => {
+const Pagespeed = ({ url, strategy }: { url: string; strategy: string }) => {
   const pickAudits = (audits: Audits): Audits => ({
     "first-contentful-paint": audits["first-contentful-paint"],
     "first-meaningful-paint": audits["first-meaningful-paint"],
@@ -45,14 +39,14 @@ const Pagespeed = ({
   };
 
   const fetcher = async (url: string) => {
-    const res = await fetch(url)
+    const res = await fetch(url);
 
     if (!res.ok) {
-      const error = new Error('An error occurred while fetching the data.')
-      throw error
+      const error = new Error("An error occurred while fetching the data.");
+      throw error;
     }
 
-    const data = await res.json()
+    const data = await res.json();
     const categories: Categories = data.lighthouseResult.categories;
     const audits: Audits = pickAudits(data.lighthouseResult.audits);
     const fetchTime: string = formatDateTime(data.lighthouseResult.fetchTime);
@@ -60,9 +54,9 @@ const Pagespeed = ({
     return {
       categories,
       audits,
-      fetchTime
-    }
-  }
+      fetchTime,
+    };
+  };
 
   const { data, isLoading, error } = useSWR(
     `${process.env.NEXT_PUBLIC_GOOGLE_PAGESPEED_URL}&key=${process.env.NEXT_PUBLIC_GOOGLE_PAGESPEED_API_KEY}&url=${url}&strategy=${strategy}`,
@@ -84,8 +78,8 @@ const Pagespeed = ({
               <GaugeCircle
                 max={100}
                 min={0}
-                value={score * 100} // Assuming the score is between 0 and 1
-                gaugePrimaryColor={getColor(score * 100)}
+                value={parseInt(score) * 100}
+                gaugePrimaryColor={getColor(parseInt(score) * 100)}
                 gaugeSecondaryColor="rgba(0, 0, 0, 0.1)"
                 className="w-16 h-16 text-sm"
               />
@@ -132,7 +126,7 @@ const Pagespeed = ({
         </p>
       </div>
     </>
-  )
+  );
 };
 
 export default Pagespeed;
