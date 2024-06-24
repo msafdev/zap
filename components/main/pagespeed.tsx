@@ -78,8 +78,8 @@ const Pagespeed = ({ url, strategy }: { url: string; strategy: string }) => {
               <GaugeCircle
                 max={100}
                 min={0}
-                value={parseInt(score) * 100}
-                gaugePrimaryColor={getColor(parseInt(score) * 100)}
+                value={score * 100}
+                gaugePrimaryColor={getColor(score * 100)}
                 gaugeSecondaryColor="rgba(0, 0, 0, 0.1)"
                 className="w-16 h-16 text-sm"
               />
